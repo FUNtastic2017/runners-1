@@ -15,10 +15,6 @@ href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
         <div class="form-group">
           <label for="msgForm">メッセージ：</label>
             <input type="text" class="form-control" id="msgForm">
-     　　    <br>
-      　　   <br>
-            <label for="msgForm2">メッセージ2</label>
-           <input type="text" class="form-control" id="msgForm2">
         </div>
           <button type="submit" class="btn btn-primary">送信</button>
       </form>
@@ -29,8 +25,7 @@ href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <script type="text/javascript">
         var socket = io.connect();
     
-       socket.on("server_to_client", function(data){appendMsg(data.value)});
-       socket.on("server_to_client2", function(data){appendMsg(data.value)});
+       socket.on("test_back", function(data){appendMsg(data.value)});
     
         function appendMsg(text) {
             $("#chatLogs").append("<div>" + text + "</div>");
@@ -38,11 +33,8 @@ href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     
 $("form").submit(function(e){
             var message = $("#msgForm").val();
-             var message2 = $("#msgForm2").val();
             $("#msgForm").val('');
-            $("#msgForm2").val('');
-            socket.emit("client_to_server", {value : message});
-            socket.emit("client_to_server2", {value2 : message2});
+            socket.emit("test", {value : message});
             e.preventDefault();
         });        
     </script>
