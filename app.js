@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-
-=======
 var http = require('http');
 var socketio = require('socket.io');
 var fs = require('fs');
