@@ -23,39 +23,39 @@ console.log(data.user_id + data.shop_id);
   })
 });
 
-Socket.on("Share_data",function(data){
+socket.on("Share_data",function(data){
   console.log(data.share_id + data.title + data.category_id + data.explain + data.h_place + data.g_place);
 });   
 
-Socket.emit("list",1
+socket.emit("list",1
 );
 
-Socket.on("join",function(data){
+socket.on("join",function(data){
   console.log(data.share_id + data.user_id);
 });
 
-Socket.emit("match",{
+socket.emit("match",{
   user_id : user_id,
   user_name : user_name,
   hyoka : hyoka
 });
 
-Socket.on("accept",function(data){
+socket.on("accept",function(data){
   console.log(data);
-   Socket.emit("accept_back",1)
+   socket.emit("accept_back",1)
 });
 
-Socket.on("arrive",function(data){
+socket.on("arrive",function(data){
    console.log(data);
-     Socket.emit("arrive_to_host",1)
+     socket.emit("arrive_to_host",1)
 });
   
-Socket.on("finish",function(data){
+socket.on("finish",function(data){
     comsole.log(data);
-       Socket.emit("finish",1)
+       socket.emit("finish",1)
 });
 
-Socket.on("hyoka", function(data){
+socket.on("hyoka", function(data){
     console.log(data.use_id + data.hyoka)
 });
 
