@@ -16,7 +16,7 @@ var server = http.createServer( function( req, res ) {
     req.url = "/index.html";
     res.writeHead(200, {'Content-Type': 'text/html'});
     res.write(data);
-    res.end();
+    res.end(fs.readFileSync(__dirname + '/index.html', 'utf-8'));
   });
 
 server.listen(process.env.PORT)
