@@ -36,11 +36,12 @@ io.sockets.on('connection', function (socket) {
 				client.query(get_userid, function (err, userid) {
 					client.query(get_cheer, function (err, cheer) {
 						client.query(get_runlines, function (err, runlines) {
-
+							console.log(runlog.rows.length);
+							console.log(userid.rows.length);
 							var ranking = new Array();
 							var i = 0, n = 0, m = 0, l = 0, w = 0, q = 0;
-
-							while (i <= userid.rows.length) {
+              var userid_length = userid.rows.length; 
+							while (i <= userid_length) {
 
 								ranking[i] = new Object();//create object
 								ranking[i].Userid = i;//1.userid
