@@ -197,6 +197,13 @@ io.sockets.on('connection', function (socket) {
 			});
 		});
 
+		//終了処理
+		socket.on('map_stop', function (data){
+			var userid = data.userid;
+			var update_runlog = "update runlogs set is_run = 'false' where user_id = "+userid+" and is_run = 'true';"
+			client.query(update_runlog);
+		});
+
 		socket.on('home', function (data) {
 					var id = socket.id;//送信者のidを取得
 					var userid = data.userid;//送られてきたuseridを取得
