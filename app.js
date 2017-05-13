@@ -21,12 +21,12 @@ io.sockets.on('connection', function (socket) {
 		//test
 		socket.on('test', function (data) {
 			io.sockets.emit('test_back', { value: data.value });
-			console.log("a");
+			//console.log("a");
 		});
 
 		//Send rank page data
 		socket.on('rank', function (data) {
-			console.log(data);
+			//console.log(data);
 			var get_runlog = "select id, user_id from runlogs where is_run = 'true';"
 			var get_userid = "select id, user_name from users;"
 			var get_cheer = "select * from cheers;"
@@ -36,8 +36,8 @@ io.sockets.on('connection', function (socket) {
 				client.query(get_userid, function (err, userid) {
 					client.query(get_cheer, function (err, cheer) {
 						client.query(get_runlines, function (err, runlines) {
-							console.log(runlog.rows.length);
-							console.log(userid.rows.length);
+							//console.log(runlog.rows.length);
+							//console.log(userid.rows.length);
 
 							var ranking = new Array();
 							var i = 0;
@@ -49,7 +49,7 @@ io.sockets.on('connection', function (socket) {
 								ranking[i].Userid = i;//1.userid
 								ranking[i].Name = userid.rows[i].user_name;//2.user name
 								for (n = 0; n < runlog.rows.length; n++) {
-									console.log("n is " + n);
+									//console.log("n is " + n);
 									if (runlog.rows[n].user_id == i) {
 										var data_runline = new Array();
 										var runlog_id = 0;
@@ -62,7 +62,7 @@ io.sockets.on('connection', function (socket) {
 												data_runline[l] = runlines.rows[m];
 												l++;
 												runlog_id = runlog.rows[n].id;
-												console.log(data_runline.length);
+												//console.log(data_runline.length);
 											}
 										}
 
@@ -70,22 +70,25 @@ io.sockets.on('connection', function (socket) {
 
 										//get time.
 										var dt_time_oldest = data_runline[0];
+										console.log(dt_time_oldest);
 										var dt_time_newest = data_runline[max_data_runline];
+										console.log(dt_time_newest);
 										var time = (dt_time_newest - dt_time_oldest) / 3600000;
+										console.log(time);
 										ranking[i].Time = time;//3.time
 
 										//get distance
-										console.log(max_data_runline);
+										//console.log(max_data_runline);
 										var dist_sum = 0.000000;
 										for (w = 0; w < max_data_runline; w++) {
-											console.log("current w is " + w);
-											console.log(data_runline[w].current_lat);
+											//console.log("current w is " + w);
+											//console.log(data_runline[w].current_lat);
 											var lat1 = data_runline[w].current_lat;
 											var lon1 = data_runline[w].current_lon;
 											var lat2 = data_runline[w + 1].current_lat;
 											var lon2 = data_runline[w + 1].current_lon;
 											var dist = getdist(lat1, lon1, lat2, lon2);
-											console.log(dist);
+											//console.log(dist);
 											dist_sum = dist_sum + dist;
 										}
 										ranking[i].Dist = dist_sum;//4.sum of distance
