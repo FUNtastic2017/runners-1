@@ -122,8 +122,15 @@ io.sockets.on('connection', function (socket) {
 
 
 		socket.on('map', function (data) {
-			id = socket.id;
-			var get_runlog = "select id, user_id from runlogs where is_run = 'true';"
+			var id = socket.id;
+			
+			//送られた情報を取得
+			var userid = data.userid;
+			var lat = data.lat;
+			var lon = data.lon;
+
+			//var get_runlog = "select id, user_id from runlogs where is_run = 'true';"
+			var get_runlog = "select id, user_id from runlogs;"
 			var get_userid = "select id, user_name from users;"
 			var get_runlines = "select * from runlines;"
 			var mapback = new Array();
@@ -132,12 +139,41 @@ io.sockets.on('connection', function (socket) {
 			client.query(get_userid, function(err, user) {
 				client.query(get_runlog, function(err, runlog) {
 					client.query(get_runlines, function(err, runline) {
+						//走り始めたのか，走っているのか判定
+						var isrunning = false;
+						var runlogid;
+						var runlog_isrun = [];
+						for (var i = 0; i < runlog.rows.length; i++) {
+							if (runlog.rows[i].user_id == userid){
+								var isrunning = true;
+								runlogid = runlog.rows[i].id;
+							}
+
+							//is_runがtrueであるものだけをあつめる
+							if (runlog.rows[i].is_run){
+								runlog_isrun.push(runlog.rows[i]);
+							}
+						}
+
+						//走っていなければ新たなrunlogを作成
+						if (!isrunning){
+							runlogid = runlog.rows.length + 1;
+							var insert_runlog = "insert into runlogs (id, user_id, is_run) values ("+runlogid+", "+userid+", 'true');"
+							client.query(insert_runlog);
+							var insert_lines = "insert into runlines (current_times, current_lat, current_lon, runlog_id) values ("+new Date()+", "+lat+", "+lon+", "+runlogid+");"
+							client.query(insert_lines);
+						} else {//走っていれば追加
+							var insert_lines = "insert inot runlines (current_times, current_lat, current_lon, runlog_id) values ("+new Date()+", "+lat+", "+lon+", "+runlogid+");"
+							client.query(insert_lines);
+						}
+
+						//全てを配列に詰めて返却する処理
 						for(var i = 0; i < user.rows.length; i++){
 							var l = 0;
 							mapback[i] = new Array();
-							for(var n = 0; n < runlog.rows.length; n++){
-								if (i == runlog.rows[n].user_id) {
-									runlog_id = runlog.rows[n].id;
+							for(var n = 0; n < runlog_isrun.length; n++){
+								if (i == runlog_isrun[n].user_id) {
+									runlog_id = runlog_isrun[n].id;
 									for(var m = 0; m < runline.rows.length; m++) {
 										if(runline.rows[m].runlog_id == runlog_id) {
 											mapback[i][l] = new Object();
@@ -151,6 +187,7 @@ io.sockets.on('connection', function (socket) {
 								}
 							}
 						}
+
 						console.log(mapback[0][1].Lat);
 						console.log(mapback[0][2].Lat);
 						console.log(mapback[0][3].Lat);
