@@ -145,18 +145,15 @@ io.sockets.on('connection', function (socket) {
 							}
 						}
 						io.socket.emit('map_back', mapback);
+						console.log("success");
 					});
 				});
 			});
-
-
 		});
 
-		socket.on('home', function (data) {
-			var home = 1;
-			io.sockets.emit('home_back', { value: home });
+		socket.on('title', function (data) {
+			io.sockets.emit('title_back', 4);
 		});
-
 	});
 });
 
