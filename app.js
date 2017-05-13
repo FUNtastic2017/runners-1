@@ -73,6 +73,8 @@ io.sockets.on('connection', function (socket) {
 										//get distance
 										var dist_sum = 0.000000;
 										for (w = 0; w < max_data_runline; w++) {
+											console.log(w);
+											console.log(data_runline[w].current_lat);
 											var lat1 = data_runline[w].current_lat;
 											var lon1 = data_runline[w].current_lon;
 											var lat2 = data_runline[w + 1].current_lat;
