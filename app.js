@@ -78,7 +78,7 @@ io.sockets.on('connection', function (socket) {
 										var minutes = parseInt(time/60);
 										var seconds = parseInt(time%60);
 
-										var timeString = minutes + "分" + seconds + "\n";
+										var timeString = minutes + "分" + seconds + "秒";
 
 										console.log(time);
 										ranking[i].Time = timeString;//3.time
