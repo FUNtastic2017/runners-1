@@ -73,6 +73,7 @@ io.sockets.on('connection', function (socket) {
 										ranking[i].Time = time;//3.time
 
 										//get distance
+										console.log(max_data_runline);
 										var dist_sum = 0.000000;
 										for (w = 0; w < max_data_runline; w++) {
 											console.log(w);
