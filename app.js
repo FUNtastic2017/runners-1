@@ -40,7 +40,7 @@ io.sockets.on('connection', function (socket) {
 							console.log(userid.rows.length);
 
 							var ranking = new Array();
-							var i = 0, n = 0, m = 0, l = 0, w = 0, q = 0;
+							var i = 0, n = 0, l = 0, w = 0, q = 0;
               var userid_length = userid.rows.length;
 							while (i <= userid_length) {
 
@@ -52,8 +52,8 @@ io.sockets.on('connection', function (socket) {
 										var data_runline = new Array();
 										var runlog_id = 0;
 										console.log(runlines.rows[0].runlog_id);
-										for (m = 0; m <= runlines.rows.length; m++) {
-											if (runlines.rows[0].runlog_id == runlog.rows[n].id) {
+										for (var m = 0; m <= runlines.rows.length; m++) {
+											if (runlines.rows[m].runlog_id == runlog.rows[n].id) {
 												data_runline[l] = runlines.rows[m];
 												l++;
 												runlog_id = runlog.rows[n].id;
@@ -74,7 +74,7 @@ io.sockets.on('connection', function (socket) {
 											var lan1 = data_runline[w].current_lon;
 											var lat2 = data_runline[w + 1].current_lat;
 											var lan2 = data_runline[w + 1].current_lon;
-											var dist = getdist(lat1, lon, lat2, lon2);
+											var dist = getdist(lat1, lon1, lat2, lon2);
 											dist_sum = dist_sum + dist;
 										}
 										ranking[i].Dist = dist_sum;//4.sum of distance
