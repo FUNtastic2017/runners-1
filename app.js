@@ -130,15 +130,17 @@ io.sockets.on('connection', function (socket) {
 				client.query(get_runlog, function(err, runlog) {
 					client.query(get_runlines, function(err, runline) {
 						for(var i = 0; i < user.rows.length; i++){
-							mapback[i] = new Array();
+							var l = 0;
 							for(var n = 0; n < runlog.rows.length; n++){
 								if (i == runlog.rows[n].user_id) {
 									runlog_id = runlog.rows[n].id;
 									for(var m = 0; m < runline.rows.length; m++) {
-										if(m == runlog_id) {
-											mapback[i][n] = new Object();
-											mapback[i][n].Lat = runline.rows[m].current_lat;
-											mapback[i][n].Lon = runline.rows[m].current_lon;
+										if(runline.rows[m].runlog_id == runlog_id) {
+											mapback[i] = new Array();
+											mapback[i][l] = new Object();
+											mapback[i][l].Lat = runline.rows[m].current_lat;
+											mapback[i][l].Lon = runline.rows[m].current_lon;
+											l++;
 											console.log(mapback[i][n].Lat);
 											console.log(mapback[i][n].Lon);
 										}
