@@ -38,6 +38,7 @@ io.sockets.on('connection', function (socket) {
 						client.query(get_runlines, function (err, runlines) {
 							console.log(runlog.rows.length);
 							console.log(userid.rows.length);
+							console.log(runlines.rows[0].runlog_id);
 							var ranking = new Array();
 							var i = 0, n = 0, m = 0, l = 0, w = 0, q = 0;
               var userid_length = userid.rows.length;
