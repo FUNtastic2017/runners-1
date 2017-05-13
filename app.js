@@ -109,6 +109,7 @@ io.sockets.on('connection', function (socket) {
 		});
 
 	});
+});
 
 	function getdist(lat1, lon1, lat2, lon2) {
 		function radians(deg) {
