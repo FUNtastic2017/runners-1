@@ -27,6 +27,7 @@ io.sockets.on('connection', function (socket) {
 
 		//Send rank page data
 		socket.on('rank', function (data) {
+			id = socket.id;
 			//console.log(data);
 			var get_runlog = "select id, user_id from runlogs where is_run = 'true';"
 			var get_userid = "select id, user_name from users;"
@@ -112,7 +113,7 @@ io.sockets.on('connection', function (socket) {
 								}
 								i++;
 							}
-							io.sockets.emit('rank_back', ranking);
+							io.sockets.to(id).emit('rank_back', ranking);
 						});
 					});
 				});
@@ -121,6 +122,7 @@ io.sockets.on('connection', function (socket) {
 
 
 		socket.on('map', function (data) {
+			id = socket.id;
 			var get_runlog = "select id, user_id from runlogs where is_run = 'true';"
 			var get_userid = "select id, user_name from users;"
 			var get_runlines = "select * from runlines;"
@@ -152,14 +154,15 @@ io.sockets.on('connection', function (socket) {
 						console.log(mapback[0][1].Lat);
 						console.log(mapback[0][2].Lat);
 						console.log(mapback[0][3].Lat);
-						io.sockets.emit('map_back', mapback);
+						io.sockets.to(id).emit('map_back', mapback);
 					});
 				});
 			});
 		});
 
 		socket.on('title', function (data) {
-			io.sockets.emit('title_back', 4);
+			id = socket.id;
+			io.sockets.to(id).emit('title_back', 4);
 		});
 	});
 });
