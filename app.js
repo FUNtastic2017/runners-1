@@ -149,7 +149,7 @@ io.sockets.on('connection', function (socket) {
 							}
 						}
 						io.sockets.emit('map_back', mapback);
-						console.log("success");
+						console.log("mapback[0][3].Lat");
 					});
 				});
 			});
