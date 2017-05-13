@@ -41,7 +41,7 @@ io.sockets.on('connection', function (socket) {
 
 							var ranking = new Array();
 							var i = 0;
-              var userid_length = userid.rows.length;
+							var userid_length = userid.rows.length;
 							while (i < userid_length) {
 								var n = 0, l = 0, w = 0; q = 0;
 
@@ -111,22 +111,43 @@ io.sockets.on('connection', function (socket) {
 								}
 								i++;
 							}
-							io.sockets.emit('rank_back',ranking);
+							io.sockets.emit('rank_back', ranking);
 						});
+					});
+				});
+			});
+		});
+
+
+		socket.on('map', function (data) {
+			var get_runlog = "select id, user_id from runlogs where is_run = 'true';"
+			var get_userid = "select id, user_name from users;"
+			var get_runlines = "select * from runlines;"
+			var mapback = [][];
+			var runlog_id = 0;
+			client.query(get_userid, function(err, user) {
+				client.query(get_runlog, function(err, runlog) {
+					client.query(get_runlines, function(err, runline) {
+						for(var i = 0; i < user.rows.length; i++){
+							for(var n = 0; n < runlog.rows.length; n++){
+								if (i == runlog.rows[n].user_id) {
+									runlog_id = runlog.rows[n].id;
+									for(var m = 0; m < runline.rows.length; m++) {
+										if(m == runlog_id) {
+											mapback[i][n] = new Object();
+											mapback[i][n].Lat = runline.rows[m].current_lat;
+											mapback[i][n].Lon = runline.rows[m].current_lon;
+										}
+									}
+								}
+							}
+						}
+						io.socket.emit('map_back', mapback);
 					});
 				});
 			});
 
 
-
-
-
-
-		});
-
-
-		socket.on('map', function (data) {
-			io.sockets.emit('map_back', { value: map });
 		});
 
 		socket.on('home', function (data) {
@@ -143,8 +164,8 @@ function getdist(lat1, lon1, lat2, lon2) {
 	}
 
 	return 6378.14 * Math.acos(Math.cos(radians(lat1)) *
-		Math.cos(radians(lat2)) *
-		Math.cos(radians(lon2) - radians(lon1)) +
-		Math.sin(radians(lat1)) *
-		Math.sin(radians(lat2)));
+	Math.cos(radians(lat2)) *
+	Math.cos(radians(lon2) - radians(lon1)) +
+	Math.sin(radians(lat1)) *
+	Math.sin(radians(lat2)));
 }
