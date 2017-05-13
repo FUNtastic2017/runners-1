@@ -73,9 +73,15 @@ io.sockets.on('connection', function (socket) {
 										console.log(dt_time_oldest);
 										var dt_time_newest = data_runline[max_data_runline].current_times;
 										console.log(dt_time_newest);
-										var time = (dt_time_newest - dt_time_oldest) / 60000;
+										var time = (dt_time_newest - dt_time_oldest) / 1000;
+
+										var minutes = parseInt(time/60);
+										var seconds = parseInt(time%60);
+
+										var timeString = minutes + "分" + seconds + "\n";
+
 										console.log(time);
-										ranking[i].Time = time;//3.time
+										ranking[i].Time = timeString;//3.time
 
 										//get distance
 										//console.log(max_data_runline);
