@@ -131,13 +131,13 @@ io.sockets.on('connection', function (socket) {
 					client.query(get_runlines, function(err, runline) {
 						for(var i = 0; i < user.rows.length; i++){
 							var l = 0;
+							mapback[i] = new Array();
+							mapback[i][l] = new Object();
 							for(var n = 0; n < runlog.rows.length; n++){
 								if (i == runlog.rows[n].user_id) {
 									runlog_id = runlog.rows[n].id;
 									for(var m = 0; m < runline.rows.length; m++) {
 										if(runline.rows[m].runlog_id == runlog_id) {
-											mapback[i] = new Array();
-											mapback[i][l] = new Object();
 											mapback[i][l].Lat = runline.rows[m].current_lat;
 											mapback[i][l].Lon = runline.rows[m].current_lon;
 											console.log(mapback[i][l].Lat);
@@ -148,10 +148,10 @@ io.sockets.on('connection', function (socket) {
 								}
 							}
 						}
-						io.sockets.emit('map_back', mapback);
 						console.log(mapback[0][1].Lat);
 						console.log(mapback[0][2].Lat);
 						console.log(mapback[0][3].Lat);
+						io.sockets.emit('map_back', mapback);		
 					});
 				});
 			});
