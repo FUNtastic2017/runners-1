@@ -32,7 +32,7 @@ io.sockets.on('connection', function (socket) {
 			var get_cheer = "select * from cheers;"
 			var get_runlines = "select * from runlines;"
 
-			client.query(runlog, function (err, runlog) {
+			client.query(get_runlog, function (err, runlog) {
 				client.query(get_userid, function (err, userid) {
 					client.query(get_cheer, function (err, cheer) {
 						client.query(get_runlines, function (err, runlines) {
