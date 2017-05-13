@@ -42,7 +42,7 @@ io.sockets.on('connection', function (socket) {
 							var ranking = new Array();
 							var i = 0;
               var userid_length = userid.rows.length;
-							while (i <= userid_length) {
+							while (i < userid_length) {
 								var n = 0, l = 0, w = 0; q = 0;
 
 								ranking[i] = new Object();//create object
