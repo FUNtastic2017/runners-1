@@ -38,7 +38,7 @@ io.sockets.on('connection', function (socket) {
 						client.query(get_runlines, function (err, runlines) {
 
 							var ranking = new Array();
-							var i, n, m, l, w, q = 0;
+							var i = 0, n = 0, m = 0, l = 0, w = 0, q = 0;
 
 							while (i <= userid.rows.length) {
 
@@ -64,7 +64,7 @@ io.sockets.on('connection', function (socket) {
 										var time = (dt_time_newest - dt_time_oldest) / 3600000;
 										ranking[i].Time = time;//3.time
 
-										//get distance	
+										//get distance
 										var dist_sum = 0.000000;
 										for (w = 0; w < max_data_runline; w++) {
 											var lat1 = data_runline[w].current_lat;
