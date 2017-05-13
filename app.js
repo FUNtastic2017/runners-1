@@ -40,3 +40,12 @@ var server = http.createServer( function( req, res ) {
   });
 });
 server.listen(process.env.PORT)
+
+var io = socketio.listern(server);
+
+io.sockets.on('connection', function(socket) {
+
+	socket.on('test', function(data) {
+	 io.sockets.emit('test_back', {value : data.value});
+	});
+});
