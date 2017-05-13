@@ -69,9 +69,9 @@ io.sockets.on('connection', function (socket) {
 										var max_data_runline = data_runline.length - 1;
 
 										//get time.
-										var dt_time_oldest = data_runline[0];
+										var dt_time_oldest = data_runline[0].current_times;
 										console.log(dt_time_oldest);
-										var dt_time_newest = data_runline[max_data_runline];
+										var dt_time_newest = data_runline[max_data_runline].current_times;
 										console.log(dt_time_newest);
 										var time = (dt_time_newest - dt_time_oldest) / 3600000;
 										console.log(time);
