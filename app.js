@@ -127,7 +127,7 @@ function getdist(lat1, lon1, lat2, lon2) {
 
 	return 6378.14 * Math.acos(Math.cos(radians(lat1)) *
 		Math.cos(radians(lat2)) *
-		Math.cos(radians(lng2) - radians(lng1)) +
+		Math.cos(radians(lon2) - radians(lon1)) +
 		Math.sin(radians(lat1)) *
 		Math.sin(radians(lat2)));
 }
