@@ -47,5 +47,6 @@ io.sockets.on('connection', function(socket) {
 
 	socket.on('test', function(data) {
 	 io.sockets.emit('test_back', {value : data.value});
+	 console.log("debug");
 	});
 });
