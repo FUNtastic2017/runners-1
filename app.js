@@ -160,6 +160,82 @@ io.sockets.on('connection', function (socket) {
 			});
 		});
 
+		socket.on('home', function (data) {
+					var id = socket.id;//送信者のidを取得
+					var userid = data.userid;//送られてきたuseridを取得
+
+					var get_users = "select id, user_name from users where id = "+userid+";"//ここにiconpathの実装
+					var get_runlogs = "select * from runlogs;"
+					var get_lines = "select * from runlines;"
+					var get_cheers = "select * from cheers;"
+
+					client.query(get_users, function(err, users){
+						client.query(get_runlogs, function(err, logs){
+							client.query(get_lines, function(err, lines){
+								client.query(get_cheers, function(err, cheers){
+									//console.log("users length is " + users.rows.length);
+									//名前取得
+									var user_name = users.rows[0].user_name;
+									//ファイルパス取得
+									//var pic_path = users.rows[0].pic_path;
+									var pic_path = "path/to/file";
+
+									//このユーザのrunlogのidを全て取得
+									var runlog_ids = [];
+									for (var i = 0; i < logs.rows.length; i++){
+										if(logs.rows[i].user_id == userid){
+											runlog_ids.push(logs.rows[i].id);
+										}
+									}
+
+									//Logsの作成
+									var runlogs = [];
+									for (var i = 0; i < runlog_ids.length; i++){
+										var runlines = [];
+										var runlogid = runlog_ids[i];
+										for (var j = 0; j < lines.rows.length; j++){
+											if (runlogid == lines.rows[j].runlog_id){
+												runlines.push(lines.rows[j]);
+											}
+										}
+										//何分何秒走ったかを算出
+										var oldest_time = runlines[0].current_times;
+										var newest_time = runlines[runlines.length-1].current_times;
+										var total_time = GetTotalTime(oldest_time, newest_time);
+										//何年何月何日に走ったかを算出
+										var date_string = GetDateString(oldest_time);
+										//走行距離を算出
+										var total_distance = GetTotalDistance(runlines);
+
+										var cheer_count = 0;
+										//頑張れの数を算出
+										for (var k = 0; k < cheers.rows[k].length; k++){
+											if (cheer.rows[k].runlog_id == runlogid){
+												count++;
+											}
+										}
+
+										//Logにpush
+										runlogs.push({
+											"Date": date_string,
+											"Dist": total_distance,
+											"Time": total_time,
+											"Cheer": cheer_count
+										});
+									}
+
+									var home = {
+										"Name": user_name,
+										"PicPath": pic_path,
+										"Logs": runlogs
+									};
+									io.sockets.to(id).emit('home_back', home);
+								});
+							});
+						});
+					});
+				});
+
 		socket.on('title', function (data) {
 			id = socket.id;
 			io.sockets.to(id).emit('title_back', 4);
