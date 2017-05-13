@@ -74,7 +74,7 @@ io.sockets.on('connection', function (socket) {
 										var dist_sum = 0.000000;
 										for (w = 0; w < max_data_runline; w++) {
 											var lat1 = data_runline[w].current_lat;
-											var lan1 = data_runline[w].current_lon;
+											var lon1 = data_runline[w].current_lon;
 											var lat2 = data_runline[w + 1].current_lat;
 											var lan2 = data_runline[w + 1].current_lon;
 											var dist = getdist(lat1, lon1, lat2, lon2);
