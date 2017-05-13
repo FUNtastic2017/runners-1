@@ -123,7 +123,8 @@ io.sockets.on('connection', function (socket) {
 			var get_runlog = "select id, user_id from runlogs where is_run = 'true';"
 			var get_userid = "select id, user_name from users;"
 			var get_runlines = "select * from runlines;"
-			var mapback = [][];
+			var mapback = new Array();
+
 			var runlog_id = 0;
 			client.query(get_userid, function(err, user) {
 				client.query(get_runlog, function(err, runlog) {
@@ -134,6 +135,7 @@ io.sockets.on('connection', function (socket) {
 									runlog_id = runlog.rows[n].id;
 									for(var m = 0; m < runline.rows.length; m++) {
 										if(m == runlog_id) {
+											mapback[i] = new Array();
 											mapback[i][n] = new Object();
 											mapback[i][n].Lat = runline.rows[m].current_lat;
 											mapback[i][n].Lon = runline.rows[m].current_lon;
