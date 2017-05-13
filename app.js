@@ -28,7 +28,7 @@ io.sockets.on('connection', function (socket) {
 		socket.on('rank', function (data) {
 			console.log(data);
 			var get_runlog = "select id, user_id from runlogs where is_run = 'true';"
-			var get_userid = "select id, name from users;"
+			var get_userid = "select id, user_name from users;"
 			var get_cheer = "select * from cheers;"
 			var get_runlines = "select * from runlines;"
 
@@ -40,7 +40,7 @@ io.sockets.on('connection', function (socket) {
 							console.log(userid.rows.length);
 							var ranking = new Array();
 							var i = 0, n = 0, m = 0, l = 0, w = 0, q = 0;
-              var userid_length = userid.rows.length; 
+              var userid_length = userid.rows.length;
 							while (i <= userid_length) {
 
 								ranking[i] = new Object();//create object
