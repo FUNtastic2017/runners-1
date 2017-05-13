@@ -48,6 +48,7 @@ io.sockets.on('connection', function (socket) {
 								ranking[i].Userid = i;//1.userid
 								ranking[i].Name = userid.rows[i].user_name;//2.user name
 								for (n = 0; n < runlog.rows.length; n++) {
+									console.log("n is " + n);
 									if (runlog.rows[n].user_id == i) {
 										var data_runline = new Array();
 										var runlog_id = 0;
