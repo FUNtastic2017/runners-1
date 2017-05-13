@@ -144,7 +144,7 @@ io.sockets.on('connection', function (socket) {
 								}
 							}
 						}
-						io.socket.emit('map_back', mapback);
+						io.sockets.emit('map_back', mapback);
 						console.log("success");
 					});
 				});
