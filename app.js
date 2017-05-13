@@ -86,6 +86,7 @@ io.sockets.on('connection', function (socket) {
 										ranking[i].Cheer = count_cheer;//5.sum of cheer
 									}
 								}
+								i++;
 							}
 						});
 					});
