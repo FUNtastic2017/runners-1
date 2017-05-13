@@ -20,7 +20,8 @@ io.sockets.on('connection', function (socket) {
 
 		//test
 		socket.on('test', function (data) {
-			io.sockets.emit('test_back', { value: data.value });
+			id = socket.id;
+			io.sockets.to(id).emit('test_back', { value: data.value });
 			//console.log("a");
 		});
 
