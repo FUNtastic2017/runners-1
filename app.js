@@ -40,9 +40,10 @@ io.sockets.on('connection', function (socket) {
 							console.log(userid.rows.length);
 
 							var ranking = new Array();
-							var i = 0, n = 0, l = 0, w = 0, q = 0;
+							var i = 0;
               var userid_length = userid.rows.length;
 							while (i <= userid_length) {
+								var n = 0, l = 0, w = 0; q = 0;
 
 								ranking[i] = new Object();//create object
 								ranking[i].Userid = i;//1.userid
