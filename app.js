@@ -53,15 +53,17 @@ io.sockets.on('connection', function (socket) {
 										var runlog_id = 0;
 
 										for (var m = 0; m < runlines.rows.length; m++) {
-											console.log(m);
-											console.log(runlines.rows[0].runlog_id);
-											console.log(runlines.rows[m].runlog_id);
+											//console.log(m);
+											//console.log(runlines.rows[0].runlog_id);
+											//console.log(runlines.rows[m].runlog_id);
 											if (runlines.rows[m].runlog_id == runlog.rows[n].id) {
 												data_runline[l] = runlines.rows[m];
 												l++;
 												runlog_id = runlog.rows[n].id;
+												console.log(data_runline.length);
 											}
 										}
+
 										var max_data_runline = data_runline.length - 1;
 
 										//get time.
