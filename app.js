@@ -187,7 +187,8 @@ io.sockets.on('connection', function (socket) {
 								}
 							}
 						}
-
+						console.log(mapback.length);
+						console.log(mapback[0].length);	
 						console.log(mapback[0][1].Lat);
 						console.log(mapback[0][2].Lat);
 						console.log(mapback[0][3].Lat);
