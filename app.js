@@ -88,6 +88,7 @@ io.sockets.on('connection', function (socket) {
 								}
 								i++;
 							}
+							io.sockets.emit('rank_back',ranking);
 						});
 					});
 				});
@@ -97,7 +98,7 @@ io.sockets.on('connection', function (socket) {
 
 
 
-			io.sockets.emit('rank_back',ranking);
+
 		});
 
 
