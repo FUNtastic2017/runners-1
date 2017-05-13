@@ -52,7 +52,7 @@ io.sockets.on('connection', function (socket) {
 										var data_runline = new Array();
 										var runlog_id = 0;
 
-										for (var m = 0; m <= runlines.rows.length; m++) {
+										for (var m = 0; m < runlines.rows.length; m++) {
 											console.log(m);
 											console.log(runlines.rows[0].runlog_id);
 											console.log(runlines.rows[m].runlog_id);
