@@ -96,7 +96,7 @@ io.sockets.on('connection', function (socket) {
 
 
 
-			io.sockets.emit('rank_back', { value: ranking });
+			io.sockets.emit('rank_back',ranking);
 		});
 
 
