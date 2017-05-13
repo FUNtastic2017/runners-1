@@ -254,3 +254,31 @@ function getdist(lat1, lon1, lat2, lon2) {
 	Math.sin(radians(lat1)) *
 	Math.sin(radians(lat2)));
 }
+
+function GetTotalTime(oldest_time, newest_time){
+	var total_seconds = (newest_time - oldest_time) / 1000;
+	var total_minutes = parseInt(total_seconds/60);
+	var total_seconds = parseInt(total_seconds%60);
+	var time_string = total_minutes + "分" + total_seconds + "秒";
+	return time_string;
+}
+
+function GetDateString(timestamp) {
+	var year = timestamp.getFullYear();
+	var month = timestamp.getMonth() + 1;
+	var day = timestamp.getDate();
+	return year + "年" + month + "月" + day + "日";
+}
+
+function GetTotalDistance(array){
+	var dist_sum = 0.000000;
+	for (var i = 0; i < array.length - 1; i++) {
+		var lat1 = array[i].current_lat;
+		var lon1 = array[i].current_lon;
+		var lat2 = array[i + 1].current_lat;
+		var lon2 = array[i + 1].current_lon;
+		var dist = getdist(lat1, lon1, lat2, lon2);
+		dist_sum = dist_sum + dist;
+	}
+	return dist_sum.toFixed(1)+"m";
+}
