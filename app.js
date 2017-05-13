@@ -139,6 +139,8 @@ io.sockets.on('connection', function (socket) {
 											mapback[i][n] = new Object();
 											mapback[i][n].Lat = runline.rows[m].current_lat;
 											mapback[i][n].Lon = runline.rows[m].current_lon;
+											console.log(mapback[i][n].Lat);
+											console.log(mapback[i][n].Lon);
 										}
 									}
 								}
