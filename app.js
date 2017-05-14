@@ -130,26 +130,32 @@ io.sockets.on('connection', function (socket) {
 			var lon = data.lon;
 			var isrunning = false;
 
-			var get_runlog_isrun = "select id, user_id from runlogs;"
+			var get_runlog_isrun = "select * from runlogs;"
 			client.query(get_runlog_isrun, function(err, runlogs){
 				var runlogid = 0;
 				for (var i = 0; i < runlogs.rows.length; i++){
-					if (runlogs.rows[i].is_run && runlogs.rows[i].user_id == userid) {
-						runlogid = runlogs.rows[i].id;
-						isrunning = true;
+					if (runlogs.rows[i].user_id == userid) {
+						console.log("i is " + i);
+						console.log("is_run is " + runlogs.rows[i].is_run);
+						if (runlogs.rows[i].is_run == true) {
+							runlogid = runlogs.rows[i].id;
+							isrunning = true;
+							console.log("bbbbbbb");
+							console.log(isrunning);
+						}
 					}
 				}
 
-				if (!isrunning){
+				if (isrunning == false){
 					var date = GetDateStringFormatPsql();
 					runlogid = runlogs.rows.length + 1;
 					var insert_runlog = "insert into runlogs (id, user_id, is_run) values ("+runlogid+", "+userid+", 'true');"
 					client.query(insert_runlog);
-					var insert_lines = "insert into runlines (current_times, current_lat, current_lon, runlog_id) values ("+date+", "+lat+", "+lon+", "+runlogid+");"
+					var insert_lines = "insert into runlines (current_times, current_lat, current_lon, runlog_id) values (clock_timestamp(), "+lat+", "+lon+", "+runlogid+");"
 					client.query(insert_lines);
 				} else {
 					var date = GetDateStringFormatPsql();
-					var insert_lines = "insert inot runlines (current_times, current_lat, current_lon, runlog_id) values ("+date+", "+lat+", "+lon+", "+runlogid+");"
+					var insert_lines = "insert into runlines (current_times, current_lat, current_lon, runlog_id) values (clock_timestamp(), "+lat+", "+lon+", "+runlogid+");"
 					client.query(insert_lines);	
 				}
 			});
@@ -169,9 +175,9 @@ io.sockets.on('connection', function (socket) {
 						for(var i = 0; i < user.rows.length; i++){
 							var l = 0;
 							mapback[i] = new Array();
-							for(var n = 0; n < runlog_isrun.length; n++){
-								if (i == runlog_isrun[n].user_id) {
-									runlog_id = runlog_isrun[n].id;
+							for(var n = 0; n < runlog.rows.length; n++){
+								if (i == runlog.rows[n].user_id) {
+									runlog_id = runlog.rows[n].id;
 									for(var m = 0; m < runline.rows.length; m++) {
 										if(runline.rows[m].runlog_id == runlog_id) {
 											mapback[i][l] = new Object();
@@ -198,7 +204,8 @@ io.sockets.on('connection', function (socket) {
 
 		//終了処理
 		socket.on('map_stop', function (data){
-			var userid = data.userid;
+			var userid = data;
+			console.log(userid);
 			var update_runlog = "update runlogs set is_run = 'false' where user_id = "+userid+" and is_run = 'true';"
 			client.query(update_runlog);
 		});
@@ -343,6 +350,6 @@ function GetDateStringFormatPsql(){
 
 	console.log("aaaaaaaaaaaaa\n");
 	console.log(months);
-	console.log(year + "-" + months + "-" + days + " " + hs + ":" + ms + ":" + ss);
-	return year + "-" + months + "-" + days + " " + hs + ":" + ms + ":" + ss;
+	console.log(year + "-" + months + "-" + days + "" + hs + ":" + ms + ":" + ss);
+	return year + "-" + months + "-" + days + "" + hs + ":" + ms + ":" + ss;
 }
