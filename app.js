@@ -128,8 +128,30 @@ io.sockets.on('connection', function (socket) {
 			var userid = data.userid;
 			var lat = data.lat;
 			var lon = data.lon;
+			var isrunning = false;
 
-			//var get_runlog = "select id, user_id from runlogs where is_run = 'true';"
+			var get_runlog_isrun = "select id, user_id from runlogs;"
+			client.query(get_runlog_isrun, function(err, runlogs){
+				for (var i = 0; i < runlogs.rows.length; i++){
+					if (runlogs.rows[i].is_run || runlogs.rows[i].user_id == userid) {
+						isrunning = true;
+					}
+				}
+
+				if (!isrunning){
+					runlogid = runlogs.rows.length + 1;
+					var insert_runlog = "insert into runlogs (id, user_id, is_run) values ("+runlogid+", "+userid+", 'true');"
+					client.query(insert_runlog);
+					var insert_lines = "insert into runlines (current_times, current_lat, current_lon, runlog_id) values ("+new Date()+", "+lat+", "+lon+", "+runlogid+");"
+					client.query(insert_lines);
+				} else {
+					var insert_lines = "insert inot runlines (current_times, current_lat, current_lon, runlog_id) values ("+new Date()+", "+lat+", "+lon+", "+runlogid+");"
+					client.query(insert_lines);	
+				}
+			});
+			
+
+			var get_runlog = "select id, user_id from runlogs where is_run = 'true';"
 			var get_runlog = "select id, user_id from runlogs;"
 			var get_userid = "select id, user_name from users;"
 			var get_runlines = "select * from runlines;"
@@ -139,34 +161,6 @@ io.sockets.on('connection', function (socket) {
 			client.query(get_userid, function(err, user) {
 				client.query(get_runlog, function(err, runlog) {
 					client.query(get_runlines, function(err, runline) {
-						//走り始めたのか，走っているのか判定
-						var isrunning = false;
-						var runlogid;
-						var runlog_isrun = [];
-						for (var i = 0; i < runlog.rows.length; i++) {
-							if (runlog.rows[i].user_id == userid){
-								var isrunning = true;
-								runlogid = runlog.rows[i].id;
-							}
-
-							//is_runがtrueであるものだけをあつめる
-							if (runlog.rows[i].is_run){
-								runlog_isrun.push(runlog.rows[i]);
-							}
-						}
-
-						//走っていなければ新たなrunlogを作成
-						if (!isrunning){
-							runlogid = runlog.rows.length + 1;
-							var insert_runlog = "insert into runlogs (id, user_id, is_run) values ("+runlogid+", "+userid+", 'true');"
-							client.query(insert_runlog);
-							var insert_lines = "insert into runlines (current_times, current_lat, current_lon, runlog_id) values ("+new Date()+", "+lat+", "+lon+", "+runlogid+");"
-							client.query(insert_lines);
-						} else {//走っていれば追加
-							var insert_lines = "insert inot runlines (current_times, current_lat, current_lon, runlog_id) values ("+new Date()+", "+lat+", "+lon+", "+runlogid+");"
-							client.query(insert_lines);
-						}
-
 						//全てを配列に詰めて返却する処理
 						for(var i = 0; i < user.rows.length; i++){
 							var l = 0;
