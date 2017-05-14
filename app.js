@@ -133,7 +133,7 @@ io.sockets.on('connection', function (socket) {
 			var get_runlog_isrun = "select id, user_id from runlogs;"
 			client.query(get_runlog_isrun, function(err, runlogs){
 				for (var i = 0; i < runlogs.rows.length; i++){
-					if (runlogs.rows[i].is_run || runlogs.rows[i].user_id == userid) {
+					if (runlogs.rows[i].is_run && runlogs.rows[i].user_id == userid) {
 						isrunning = true;
 					}
 				}
