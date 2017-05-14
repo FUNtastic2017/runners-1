@@ -341,6 +341,7 @@ function GetDateStringFormatPsql(){
 	var seconds = now.getSeconds();
 	var ss = ("0"+seconds).slice(-2);
 
+	console.log("aaaaaaaaaaaaa\n");
 	console.log(months);
 	console.log(year + "-" + months + "-" + days + " " + hs + ":" + ms + ":" + ss);
 	return year + "-" + months + "-" + days + " " + hs + ":" + ms + ":" + ss;
