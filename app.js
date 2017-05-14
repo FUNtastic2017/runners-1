@@ -330,7 +330,9 @@ function GetDateStringFormatPsql(){
 	var now = new Date();
 	var year = now.getFullYear();
 	var month = now.getMonth() + 1;
+	var months = ("0"+month).slice(-2);
 	var day = now.getDate();
+	var days = ("0"+day).slice(-2);
 
 	var hour = now.getHours();
 	var hs = ("0"+hour).slice(-2);
@@ -339,6 +341,6 @@ function GetDateStringFormatPsql(){
 	var seconds = now.getSeconds();
 	var ss = ("0"+seconds).slice(-2);
 
-	console.log(year + "-" + month + "-" + day + " " + hs + ":" + ms + ":" + ss);
-	return year + "-" + month + "-" + day + " " + hs + ":" + ms + ":" + ss;
+	console.log(year + "-" + months + "-" + days + " " + hs + ":" + ms + ":" + ss);
+	return year + "-" + months + "-" + days + " " + hs + ":" + ms + ":" + ss;
 }
