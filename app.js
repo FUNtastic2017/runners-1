@@ -333,14 +333,12 @@ function GetDateStringFormatPsql(){
 	var day = now.getDate();
 
 	var hour = now.getHours();
-	if (hour < 10) 
-		hour = "0"+hour;
+	var hs = ("0"+hour).slice(-2);
 	var minutes = now.getMinutes();
-	if (minutes < 10) 
-		minutes = "0"+minutes;
+	var ms = ("0"+minutes).slice(-2);
 	var seconds = now.getSeconds();
-	if (seconds < 10) 
-		seconds = "0"+seconds;
-	console.log(year + "-" + month + "-" + day + " " + hour + ":" + minutes + ":" + seconds);
-	return year + "-" + month + "-" + day + " " + hour + ":" + minutes + ":" + seconds;
+	var ss = ("0"+seconds).slice(-2);
+
+	console.log(year + "-" + month + "-" + day + " " + hs + ":" + ms + ":" + ss);
+	return year + "-" + month + "-" + day + " " + hs + ":" + ms + ":" + ss;
 }
