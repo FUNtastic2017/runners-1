@@ -139,7 +139,7 @@ io.sockets.on('connection', function (socket) {
 				}
 
 				if (!isrunning){
-					runlogid = runlogs.rows.length + 1;
+					var runlogid = runlogs.rows.length + 1;
 					var insert_runlog = "insert into runlogs (id, user_id, is_run) values ("+runlogid+", "+userid+", 'true');"
 					client.query(insert_runlog);
 					var insert_lines = "insert into runlines (current_times, current_lat, current_lon, runlog_id) values ("+new Date()+", "+lat+", "+lon+", "+runlogid+");"
