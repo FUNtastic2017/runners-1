@@ -113,6 +113,11 @@ io.sockets.on('connection', function (socket) {
 								}
 								i++;
 							}
+							ranking.sort(function(a,b){
+						        if( a.Time > b.Time ) return -1;
+						        if( a.Time < b.Time ) return 1;
+						        return 0;
+							});
 							io.sockets.to(id).emit('rank_back', ranking);
 						});
 					});
