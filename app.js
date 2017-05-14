@@ -99,7 +99,7 @@ io.sockets.on('connection', function (socket) {
 											//console.log(dist);
 											dist_sum = dist_sum + dist;
 										}
-										ranking[i].Dist = dist_sum;//4.sum of distance
+										ranking[i].Dist = dist_sum.toFixed(1) + "m";//4.sum of distance
 
 										//get sum of cheer
 										var count_cheer = 0;
