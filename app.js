@@ -51,7 +51,7 @@ io.sockets.on('connection', function (socket) {
 								ranking[i].Userid = i;//1.userid
 								ranking[i].Name = userid.rows[i].user_name;//2.user name
 								for (n = 0; n < runlog.rows.length; n++) {
-									console.log("n is " + n);
+									//console.log("n is " + n);
 									if (runlog.rows[n].user_id == i) {
 										var data_runline = new Array();
 										var runlog_id = 0;
@@ -132,14 +132,16 @@ io.sockets.on('connection', function (socket) {
 
 			var get_runlog_isrun = "select id, user_id from runlogs;"
 			client.query(get_runlog_isrun, function(err, runlogs){
+				var runlogid = 0;
 				for (var i = 0; i < runlogs.rows.length; i++){
 					if (runlogs.rows[i].is_run && runlogs.rows[i].user_id == userid) {
+						runlogid = runlogs.rows[i].id;
 						isrunning = true;
 					}
 				}
 
 				if (!isrunning){
-					var runlogid = runlogs.rows.length + 1;
+					runlogid = runlogs.rows.length + 1;
 					var insert_runlog = "insert into runlogs (id, user_id, is_run) values ("+runlogid+", "+userid+", 'true');"
 					client.query(insert_runlog);
 					var insert_lines = "insert into runlines (current_times, current_lat, current_lon, runlog_id) values ("+new Date()+", "+lat+", "+lon+", "+runlogid+");"
