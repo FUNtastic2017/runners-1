@@ -141,13 +141,15 @@ io.sockets.on('connection', function (socket) {
 				}
 
 				if (!isrunning){
+					var date = GetDateStringFormatPsql();
 					runlogid = runlogs.rows.length + 1;
 					var insert_runlog = "insert into runlogs (id, user_id, is_run) values ("+runlogid+", "+userid+", 'true');"
 					client.query(insert_runlog);
-					var insert_lines = "insert into runlines (current_times, current_lat, current_lon, runlog_id) values ("+new Date()+", "+lat+", "+lon+", "+runlogid+");"
+					var insert_lines = "insert into runlines (current_times, current_lat, current_lon, runlog_id) values ("+date+", "+lat+", "+lon+", "+runlogid+");"
 					client.query(insert_lines);
 				} else {
-					var insert_lines = "insert inot runlines (current_times, current_lat, current_lon, runlog_id) values ("+new Date()+", "+lat+", "+lon+", "+runlogid+");"
+					var date = GetDateStringFormatPsql();
+					var insert_lines = "insert inot runlines (current_times, current_lat, current_lon, runlog_id) values ("+date+", "+lat+", "+lon+", "+runlogid+");"
 					client.query(insert_lines);	
 				}
 			});
@@ -322,4 +324,16 @@ function GetTotalDistance(array){
 		dist_sum = dist_sum + dist;
 	}
 	return dist_sum.toFixed(1)+"m";
+}
+
+function GetDateStringFormatPsql(){
+	var now = new Date();
+	var year = now.getFullYear();
+	var month = now.getMonth() + 1;
+	var day = now.getDate();
+
+	var hour = now.getHours();
+	var minutes = now.getMinutes();
+	var seconds = now.getSeconds();
+	return year + "-" + month + "-" + day + "- " + hour + ":" + minutes + ":" + seconds;
 }
