@@ -154,9 +154,11 @@ io.sockets.on('connection', function (socket) {
 					var insert_lines = "insert into runlines (current_times, current_lat, current_lon, runlog_id) values (clock_timestamp(), "+lat+", "+lon+", "+runlogid+");"
 					client.query(insert_lines);
 				} else {
-					var date = GetDateStringFormatPsql();
-					var insert_lines = "insert into runlines (current_times, current_lat, current_lon, runlog_id) values (clock_timestamp(), "+lat+", "+lon+", "+runlogid+");"
-					client.query(insert_lines);	
+					if (lat != 0 && lon != 0){
+						var date = GetDateStringFormatPsql();
+						var insert_lines = "insert into runlines (current_times, current_lat, current_lon, runlog_id) values (clock_timestamp(), "+lat+", "+lon+", "+runlogid+");"
+						client.query(insert_lines);	
+					}
 				}
 			});
 			
